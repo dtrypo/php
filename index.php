@@ -49,8 +49,12 @@ body{
         <h2>Test Input:</h2>
         <form action="" method="post">
             <div class="form-box">
-                <label for="xy">Δώστε το μήκος και πλάτος της πλατφόρμας</label>
-                <input id="xy" name="xy" type="number">
+                <label for="x">Δώστε το μήκος της πλατφόρμας</label>
+                <input id="x" name="x" type="number">
+            </div>
+            <div class="form-box">
+                <label for="y">Δώστε το πλάτος της πλατφόρμας</label>
+                <input id="y" name="y" type="number">
             </div>
             <div class="form-box">
                 <label for="rover1">Δώστε την θέση του πρώτου rover</label>
@@ -76,13 +80,9 @@ body{
         <h2>Test output:</h2>
         <?php
 
-$xy = $_POST["xy"];
+$x = $_POST["x"];
 
-$xy_arr = str_split($xy);
-
-$x = $xy_arr[0];
-
-$y = $xy_arr[1];
+$y = $_POST["y"];
 
 $rover1_possition = $_POST["rover1"];
 
