@@ -1,211 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <style>
-        *,*::after,*::before{
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-}
+<?php
 
-body{
-    box-sizing: border-box;
-    width: 100vw;
-    height: 100vh;
-    font-size: 18px;
-    overflow: hidden;
-}
+//User Provides Plateau Size
+echo "Provide Plateau Data";
+echo "\n";
+$handle = fopen("php://stdin", "r");
+$xy = fgets($handle);
+$plateauxy = explode(" ", $xy);
+$plateaux = (int)trim($plateauxy[0]);
+$plateauy = (int)trim($plateauxy[1]);
 
-.wrapper{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.form-box{
-    display: flex;
-    flex-direction: column;
-    margin: 10px;
-}
-
-.result{
-    text-align: center;
-}
-
-.btn{
-    height: 40px;
-}
-</style>
-    <title>Assignment for Insurance Market</title>
-</head>
-<body>
-    <div class="wrapper">
-        <h2>Test Input:</h2>
-        <form action="" method="post">
-            <div class="form-box">
-                <label for="x">Δώστε το μήκος της πλατφόρμας</label>
-                <input id="x" name="x" type="number">
-            </div>
-            <div class="form-box">
-                <label for="y">Δώστε το πλάτος της πλατφόρμας</label>
-                <input id="y" name="y" type="number">
-            </div>
-            <div class="form-box">
-                <label for="rover1">Δώστε την θέση του πρώτου rover</label>
-                <input id="rover1" name="rover1" type="text">
-            </div>
-            <div class="form-box">
-                <label for="rover1-movement">Δώστε την κίνηση του πρώτου rover</label>
-                <input id="rover1-movement" name="rover1-movement" type="text">
-            </div>
-            <div class="form-box">
-                <label for="rover2">Δώστε την θέση του δεύτερου rover</label>
-                <input id="rover2" name="rover2" type="text">
-            </div>
-            <div class="form-box">
-                <label for="rover2-movement">Δώστε την κίνηση του δεύτερου rover</label>
-                <input id="rover2-movement" name="rover2-movement" type="text">
-            </div>
-            <div class="form-box">
-                <button type="submit">Submit</button>
-            </div>
-        </form>
-        <div class="result">
-        <h2>Test output:</h2>
-        <?php
-
-$x = $_POST["x"];
-
-$y = $_POST["y"];
-
-$rover1_possition = $_POST["rover1"];
-
-$rover1_possition_arr = str_split($rover1_possition);
-
-$rover1_x = (int)$rover1_possition_arr[0];
-
-$rover1_y = (int)$rover1_possition_arr[1];
-
-$rover1_face = $rover1_possition_arr[2];
-
-$rover2_possition = $_POST["rover2"];
-
-$rover2_possition_arr = str_split($rover2_possition);
-
-$rover2_x = (int)$rover2_possition_arr[0];
-
-$rover2_y = (int)$rover2_possition_arr[1];
-
-$rover2_face = $rover2_possition_arr[2];
-
-$rover1_movement = $_POST["rover1-movement"];
-
-$rover1_movement_arr = str_split($rover1_movement);
-
-$rover2_movement = $_POST["rover2-movement"];
-
-$rover2_movement_arr = str_split($rover2_movement);
-
-
-foreach ($rover1_movement_arr as $key => $value) {
-    if ($rover1_face == "N") {
-        if ($value == "L"){
-            $rover1_face = "W";
-        } else if ($value == "R"){
-            $rover1_face = "E";
+$a = true;
+$i = 1;
+while ($a == true) {
+    if ($i == 1) {
+        roverData($i, $plateaux, $plateauy);
+        $i +=1;
+    } else {
+        echo "Is there more Rovers?";
+        echo "\n";
+        $handle = fopen("php://stdin", "r");
+        $moreRovers = trim(fgets($handle));
+        if (strtoupper($moreRovers) == "YES") {
+            roverData($i, $plateaux, $plateauy);
+            $i +=1;
         } else {
-            $rover1_y +=1;
-        }
-    } else if ($rover1_face == "E") {
-        if ($value == "L"){
-            $rover1_face = "N";
-        } else if ($value == "R"){
-            $rover1_face = "S";
-        } else {
-            $rover1_x +=1;
-        }
-    } else if ($rover1_face == "S") {
-        if ($value == "L"){
-            $rover1_face = "E";
-        } else if ($value == "R"){
-            $rover1_face = "W";
-        } else {
-            $rover1_y -=1;
-        }
-    } else if ($rover1_face == "W") {
-        if ($value == "L"){
-            $rover1_face = "S";
-        } else if ($value == "R"){
-            $rover1_face = "N";
-        } else {
-            $rover1_x -=1;
+            $a = false;
         }
     }
+    
 }
 
-foreach ($rover2_movement_arr as $key => $value) {
-    if ($rover2_face == "N") {
-        if ($value == "L"){
-            $rover2_face = "W";
-        } else if ($value == "R"){
-            $rover2_face = "E";
+// Rover Take Data Function
+function roverData($i, $plateaux, $plateauy){
+    //User gives Rover position
+    echo "Provide Rover " . $i . " Data";
+    echo "\n";
+    $handle = fopen("php://stdin", "r");
+    $Rover = fgets($handle);
+    $Roverp = explode(" ", $Rover);
+    $Roverx = (int)trim($Roverp[0]);
+    $Rovery = (int)trim($Roverp[1]);
+    $Roverp = (string)trim($Roverp[2]);
+    roverMovement($Roverx, $Rovery, $Roverp, $i, $plateaux, $plateauy);
+}
+
+// Rover Take Movement Function
+function roverMovement($Roverx, $Rovery, $Roverp, $i, $plateaux, $plateauy){
+    //User gives Rover movement instructions
+    echo "Provide Rover " . $i . " Movement";
+    echo "\n";
+    $handle = fopen("php://stdin", "r");
+    $RoverMovement = fgets($handle);
+    $Roverm = str_split(trim($RoverMovement));
+    echo "\n";
+    echo moveRover($Roverm, $Roverx, $Rovery, $Roverp, $i, $plateaux, $plateauy);
+    echo "\n";
+}
+
+// Rover Movement Function
+
+function moveRover($RoverMovement, $Roverx, $Rovery, $Roverp, $i, $plateaux, $plateauy){
+    $RoverStartingP = $Roverp;
+    $RoverStartingX = $Roverx;
+    $RoverStartingY = $Rovery;
+    foreach ($RoverMovement as $key => $value) {
+        if ($Roverp == "N") {
+            if ($value == "L"){
+                $Roverp = "W";
+            } else if ($value == "R"){
+                $Roverp = "E";
+            } else {
+                $Rovery +=1;
+            }
+        } else if($Roverp == "E") {
+            if ($value == "L"){
+                $Roverp = "N";
+            } else if ($value == "R"){
+                $Roverp = "S";
+            } else {
+                $Roverx +=1;
+            }
+        } else if($Roverp == "S") {
+            if ($value == "L"){
+                $Roverp = "E";
+            } else if ($value == "R"){
+                $Roverp = "W";
+            } else {
+                $Rovery -=1;
+            }
         } else {
-            $rover2_y +=1;
-        }
-    } else if ($rover2_face == "E") {
-        if ($value == "L"){
-            $rover2_face = "N";
-        } else if ($value == "R"){
-            $rover2_face = "S";
-        } else {
-            $rover2_x +=1;
-        }
-    } else if ($rover2_face == "S") {
-        if ($value == "L"){
-            $rover2_face = "E";
-        } else if ($value == "R"){
-            $rover2_face = "W";
-        } else {
-            $rover2_y -=1;
-        }
-    } else if ($rover2_face == "W") {
-        if ($value == "L"){
-            $rover2_face = "S";
-        } else if ($value == "R"){
-            $rover2_face = "N";
-        } else {
-            $rover2_x -=1;
+            if ($value == "L"){
+                $Roverp = "S";
+            } else if ($value == "R"){
+                $Roverp = "N";
+            } else {
+                $Roverx -=1;
+            }
         }
     }
+
+    if ($Roverx>=0 && $Roverx<= $plateaux && $Rovery>=0 && $Rovery<= $plateauy) {
+        $result = $Roverx . " " . $Rovery . " " . $Roverp;
+        return $result;
+    } else {
+        echo "Rover goes outside the plateau. Please give correct Rover movement data";
+        roverMovement($RoverStartingX, $RoverStartingY, $RoverStartingP, $i, $plateaux, $plateauy);
+    }
 }
-
-if ($rover1_x <= (int)$x && $rover1_x >= 0 && $rover1_y < (int)$y && $rover1_y >= 0) {
-    echo $rover1_x . " " . $rover1_y . " " . $rover1_face;
-    echo "<br>";
-} else {
-    echo "Οι συντεταγμένες που δώσατε οδηγούν το πρώτο Rover εκτός πλατφόρμας";
-    echo "<br>";
-    echo "Παρακαλώ ξανά δώστε ορθές συντεταγμένες κίνησης ή ορίων πλατφόρμας";
-}
-
-if ($rover2_x <= (int)$x && $rover2_x >= 0 && $rover2_y < (int)$y && $rover2_y >= 0) {
-    echo $rover2_x . " " . $rover2_y . " " . $rover2_face;
-    echo "<br>";
-} else {
-    echo "Οι συντεταγμένες που δώσατε οδηγούν το δεύτερο Rover εκτός πλατφόρμας";
-    echo "<br>";
-    echo "Παρακαλώ ξανά δώστε ορθές συντεταγμένες κίνησης ή ορίων πλατφόρμας";
-}
-
-
-?>
-        </div>
-    </div>
-</body>
-</html>
